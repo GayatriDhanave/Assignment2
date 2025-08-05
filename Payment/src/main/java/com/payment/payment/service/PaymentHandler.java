@@ -1,27 +1,30 @@
 package com.payment.payment.service;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PaymentHandler {
     PaymentProcessor processor=null;
     String transactionID=null;
     public String handlePayment(int paymentType, String details) {
         switch (paymentType) {
             case 1://UPI payment
-                processor=new UPIPayment();
+                processor=new UPIPayment(details);
                 transactionID=processor.initiatePayment(details);
                break;
 
                case 2:
-                    processor=new CreditCardPayment();
+                    processor=new CreditCardPayment(details);
                     transactionID=processor.initiatePayment(details);
                     break;
 
                     case 3:
-                    processor=new NetBankingPayment();
+                    processor=new NetBankingPayment(details);
                     transactionID=processor.initiatePayment(details);
                     break;
 
             case 4:
-                processor=new CashOnDelivery();
+                processor=new CashOnDelivery(details);
                 transactionID=processor.initiatePayment(details);
                 break;
 

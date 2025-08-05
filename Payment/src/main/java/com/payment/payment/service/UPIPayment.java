@@ -2,14 +2,25 @@ package com.payment.payment.service;
 
 public class UPIPayment implements PaymentProcessor{
 
-   String transactionID;
+   static String transactionID;
     int originalOtp=6067;
+    String upiId= "asd@oksbi";
+    public UPIPayment(String transactionID) {
+        this.transactionID = transactionID+originalOtp;
+    }
+    public UPIPayment() {
+    }
+
 
     @Override
     public String initiatePayment(String details) {
+        if(upiId.equals(details)){
 
-        transactionID=details+originalOtp;
-        return transactionID;
+            return transactionID;
+
+        }
+        return null;
+
     }
 
     @Override

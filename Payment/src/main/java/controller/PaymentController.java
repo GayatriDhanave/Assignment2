@@ -2,22 +2,24 @@ package controller;
 
 import com.payment.payment.service.PaymentHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@Component
+@RestController
+@ComponentScan
+@RequestMapping("/api")
 public class PaymentController {
     @Autowired
     PaymentHandler paymentHandler;
 
-    @GetMapping("/initiatePayment")
-    public String makePayment(@RequestParam int paymentType, @RequestParam String details) {
+    @GetMapping("initiatePayment")
+    public String makePayment(@RequestParam("paymentType") int paymentType, @RequestParam("details") String details) {
        String transactionId= paymentHandler.handlePayment(paymentType, details);
-        if(transactionId==null){
+        if(transactionId!=null){
             String id=transactionId.substring(0,(transactionId.length()-5));
-            String otp=transactionId.substring(id.length());
+            String otp=transactionId.substring(id.length()+1);
             return "Your transaction ID is: "+id+" and OTP is: "+otp;
         }
         return null;
@@ -29,5 +31,9 @@ public class PaymentController {
             return "payment completed";
         }
         return "payment failed";
+    }
+    @GetMapping("/getuser")
+    public String getusrename() {
+        return "Covori";
     }
 }
