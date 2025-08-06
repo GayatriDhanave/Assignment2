@@ -20,7 +20,7 @@ public class PaymentController {
         if(transactionId!=null){
             String id=transactionId.substring(0,(transactionId.length()-4));
             String otp=transactionId.substring(id.length());
-            return "Your transaction ID is: "+transactionId+" and OTP is: "+otp;
+            return "Your transaction ID is: "+id+" and OTP is: "+otp;
         }
         return null;
     }

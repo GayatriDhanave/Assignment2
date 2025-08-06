@@ -10,22 +10,22 @@ public class PaymentHandler {
     public String handlePayment (int paymentType, String details) {
         switch (paymentType) {
             case 1://UPI payment
-                processor = new UPIPayment(details);
+                processor = new UPIPayment();
                 transactionID = processor.initiatePayment(details);
                 break;
 
             case 2:
-                processor = new CreditCardPayment(details);
+                processor = new CreditCardPayment();
                 transactionID = processor.initiatePayment(details);
                 break;
 
             case 3:
-                processor = new NetBankingPayment(details);
+                processor = new NetBankingPayment();
                 transactionID = processor.initiatePayment(details);
                 break;
 
             case 4:
-                processor = new CashOnDelivery(details);
+                processor = new CashOnDelivery();
                 transactionID = processor.initiatePayment(details);
                 break;
 

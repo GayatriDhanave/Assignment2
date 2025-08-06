@@ -1,29 +1,26 @@
 package com.payment.payment.service;
 
 public class CreditCardPayment implements PaymentProcessor{
-    static String transactionID;
-    static int originalOtp=1015;
     static String cardNumber="1323354343";
-
-    public CreditCardPayment(String transactionID) {
-        this.transactionID = transactionID+originalOtp;
-    }
-
-    public CreditCardPayment() {
-    }
+    static Cache cache =new InMemoryCache();
 
     @Override
     public String initiatePayment(String details) {
         if(cardNumber.equals(details)){
-//            transactionID=details+originalOtp;
-            return transactionID;
+            String transactionID=Generator.generateTransactionId();
+            int originalOtp=Generator.generateOTP();
+            if(cache.save(transactionID, originalOtp)){
+                return transactionID+originalOtp;
+            }
+
         }
        return null;
     }
 
     @Override
     public boolean completePayment(int otp, String transactionId) {
-        if(transactionId.equals(transactionID) && (otp==originalOtp)){
+        if(cache.get(transactionId)==otp){
+            cache.remove(transactionId);
             return true;
         }
         return false;
