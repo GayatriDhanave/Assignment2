@@ -23,6 +23,6 @@ public class PaymentHandler {
     }
 
     public boolean completePayment (String paymentType, int otp, String transactionID) {
-        return registry.get(String.valueOf(paymentType)).completePayment(otp, transactionID);
+        return registry.get(String.valueOf(paymentType)).completePayment(otp, transactionID, paymentType);
     }
 }

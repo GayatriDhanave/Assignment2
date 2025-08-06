@@ -32,11 +32,13 @@ public class NetBankingPayment implements PaymentProcessor {
     }
 
     @Override
-    public boolean completePayment (int otp, String transactionId) {
+    public boolean completePayment (int otp, String transactionId, String paymentType) {
+
         if (cache.get(transactionId) == otp) {
             cache.remove(transactionId);
             return true;
         }
+
         return false;
     }
 
