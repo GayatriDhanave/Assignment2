@@ -2,9 +2,9 @@ package com.payment.payment.service;
 
 public class UPIPayment implements PaymentProcessor{
 
-   static String transactionID;
-    int originalOtp=6067;
-    String upiId= "asd@oksbi";
+    static String transactionID;
+    static int originalOtp=6067;
+    static String upiId= "asd@oksbi";
     public UPIPayment(String transactionID) {
         this.transactionID = transactionID+originalOtp;
     }

@@ -2,8 +2,8 @@ package com.payment.payment.service;
 
 public class NetBankingPayment implements PaymentProcessor{
     static String transactionID;
-    int originalOtp=5374;
-    String mpin="3243";
+    static int originalOtp=5374;
+    static String mpin="3243";
     public NetBankingPayment(String transactionID) {
         this.transactionID = transactionID+originalOtp;
     }

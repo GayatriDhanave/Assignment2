@@ -23,7 +23,7 @@ public class CreditCardPayment implements PaymentProcessor{
 
     @Override
     public boolean completePayment(int otp, String transactionId) {
-        if(otp==originalOtp){
+        if(transactionId.equals(transactionID) && (otp==originalOtp)){
             return true;
         }
         return false;
