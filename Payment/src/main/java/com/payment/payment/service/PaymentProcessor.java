@@ -5,4 +5,5 @@ public interface PaymentProcessor {
 //    complete payment
     String initiatePayment(String details);
     boolean completePayment(int otp, String transactionId);
+    void register();
 }

@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class PaymentRequest {
-    private int paymentType;
+    private String paymentType;
     private String details;
+    private String transactionId;
+    private int otp;
 }

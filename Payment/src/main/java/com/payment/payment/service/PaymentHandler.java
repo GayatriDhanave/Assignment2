@@ -1,68 +1,28 @@
 package com.payment.payment.service;
 
+
+import com.payment.payment.registry.PaymentProcessorRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+//@ComponentScan(basePackages = {"com.payment.payment.registry"})
 public class PaymentHandler {
-    PaymentProcessor processor = null;
-    String transactionID = null;
+    @Autowired
+    PaymentProcessorRegistry registry;
 
-    public String handlePayment (int paymentType, String details) {
-        switch (paymentType) {
-            case 1://UPI payment
-                processor = new UPIPayment();
-                transactionID = processor.initiatePayment(details);
-                break;
 
-            case 2:
-                processor = new CreditCardPayment();
-                transactionID = processor.initiatePayment(details);
-                break;
-
-            case 3:
-                processor = new NetBankingPayment();
-                transactionID = processor.initiatePayment(details);
-                break;
-
-            case 4:
-                processor = new CashOnDelivery();
-                transactionID = processor.initiatePayment(details);
-                break;
-
-            default:
-                transactionID = null;
-                break;
+    public String handlePayment (String paymentType, String details) {
+        String transactionID = null;
+        System.out.println(registry.get(paymentType));
+        if (registry.get(paymentType) != null) {
+            transactionID = registry.get(paymentType).initiatePayment(details);
+            return transactionID;
         }
-        return transactionID;
+        return null;
     }
 
-    public boolean completePayment (int paymentType, int otp, String transactionID) {
-        boolean status = false;
-        switch (paymentType) {
-            case 1://UPI payment
-                processor = new UPIPayment();
-                status = processor.completePayment(otp, transactionID);
-                break;
-
-            case 2:
-                processor = new CreditCardPayment();
-                status = processor.completePayment(otp, transactionID);
-                break;
-
-            case 3:
-                processor = new NetBankingPayment();
-                status = processor.completePayment(otp, transactionID);
-                break;
-
-            case 4:
-                processor = new CashOnDelivery();
-                status = processor.completePayment(otp, transactionID);
-                break;
-
-            default:
-                status = false;
-                break;
-        }
-        return status;
+    public boolean completePayment (String paymentType, int otp, String transactionID) {
+        return registry.get(String.valueOf(paymentType)).completePayment(otp, transactionID);
     }
 }
