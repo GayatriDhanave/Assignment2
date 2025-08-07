@@ -1,6 +1,7 @@
 package com.payment.payment.controller;
 
 import com.payment.payment.entity.PaymentRequest;
+import com.payment.payment.entity.PaymentRequestDTO;
 import com.payment.payment.service.PaymentHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,13 +24,15 @@ public class PaymentController {
 //    used for multipart requests
 
     @GetMapping("initiatePayment")
-    public String makePayment (@RequestBody PaymentRequest paymentRequest) {
-        String transactionId = paymentHandler.handlePayment(paymentRequest.getPaymentType(), paymentRequest.getDetails());
+    public String makePayment (@RequestBody PaymentRequestDTO paymentRequestDto) {
+        String transactionId = paymentHandler.handlePayment(paymentRequestDto);
 
-        if (transactionId != null) {
+        if (transactionId.length() > 36 && transactionId.length() <= 40) {
             String id = transactionId.substring(0, (transactionId.length() - 4));
             String otp = transactionId.substring(id.length());
             return "Your transaction ID is: " + id + " and OTP is: " + otp;
+        } else if (transactionId.length()<=36) {
+            return "Your transaction ID is: "+transactionId;
         }
         return "Payment initiation failed";
     }

@@ -1,12 +1,13 @@
 package com.payment.payment.service;
 
+import com.payment.payment.entity.PaymentRequestDTO;
 import com.payment.payment.registry.PaymentProcessorRegistry;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CashOnDelivery implements PaymentProcessor {
-    String email = "example@gmail.com";
-
+        static String email = "example@gmail.com";
+//    static String password = "123456";
     private final PaymentProcessorRegistry registry;
     private final Cache cache;
 
@@ -17,26 +18,22 @@ public class CashOnDelivery implements PaymentProcessor {
     }
 
     @Override
-    public String initiatePayment (String details) {
-        if (details.equals(email)) {
+    public String initiatePayment (PaymentRequestDTO dto) {
+        if (dto.getPaymentId().equals(email)) {
             String transactionID = Generator.generateTransactionId();
-            int originalOtp = Generator.generateOTP();
-            if (cache.save(transactionID, originalOtp)) {
-                return transactionID + originalOtp;
+//            int originalOtp = Generator.generateOTP();
+
+            if (cache.save(transactionID, null)) {
+                return transactionID;
             }
         }
         return null;
     }
 
     @Override
-    public boolean completePayment (int otp, String transactionId, String paymentType) {
+    public boolean completePayment (String otp, String transactionId, String paymentType) {
 
-        if (cache.get(transactionId) == otp) {
-            cache.remove(transactionId);
-            return true;
-        }
-
-        if (cache.get(transactionId) == otp) {
+        if (cache.get(transactionId) == null) {
             cache.remove(transactionId);
             return true;
         }

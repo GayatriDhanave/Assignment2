@@ -1,11 +1,13 @@
 package com.payment.payment.service;
 
+import com.payment.payment.entity.PaymentRequestDTO;
 import com.payment.payment.registry.PaymentProcessorRegistry;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UPIPayment implements PaymentProcessor {
     static String upiId = "asd@oksbi";
+    static String originalOtp = "123456";
 
     private final PaymentProcessorRegistry registry;
     private final Cache cache;
@@ -22,12 +24,12 @@ public class UPIPayment implements PaymentProcessor {
     }
 
     @Override
-    public String initiatePayment (String details) {
-        if (upiId.equals(details)) {
+    public String initiatePayment (PaymentRequestDTO dto) {
+        if (upiId.equals(dto.getPaymentId())) {
             String transactionID = Generator.generateTransactionId();
-            int originalOtp = Generator.generateOTP();
+//            String originalOtp = dto.getPassword();
             if (cache.save(transactionID, originalOtp)) {
-                return transactionID + originalOtp;
+                return transactionID;
             }
             return null;
         }
@@ -36,9 +38,9 @@ public class UPIPayment implements PaymentProcessor {
     }
 
     @Override
-    public boolean completePayment (int otp, String transactionId, String paymentType) {
+    public boolean completePayment (String otp, String transactionId, String paymentType) {
 
-        if (cache.get(transactionId) == otp) {
+        if (cache.get(transactionId).equals(otp)) {
             cache.remove(transactionId);
             return true;
         }

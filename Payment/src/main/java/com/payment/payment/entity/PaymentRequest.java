@@ -3,9 +3,9 @@ package com.payment.payment.entity;
 import lombok.Data;
 
 @Data
-public class PaymentRequest {
+public class PaymentRequest { //used only for complete payment
     private String paymentType;
-    private String details;
+//    private String details;
     private String transactionId;
-    private int otp;
+    private String otp;
 }

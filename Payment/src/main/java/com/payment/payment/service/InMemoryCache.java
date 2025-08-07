@@ -1,6 +1,5 @@
 package com.payment.payment.service;
 
-import com.payment.payment.entity.PaymentRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -8,17 +7,17 @@ import java.util.Map;
 
 @Component
 public class InMemoryCache implements Cache {
-    Map<String, Object> cache = new HashMap<>();
+    Map<String, String> cache = new HashMap<>();
 
     @Override
-    public boolean save (String transactionId, int otp) {
+    public boolean save (String transactionId, String otp) {
         cache.put(transactionId, otp);
         return true;
     }
 
     @Override
-    public int get (String transactionId) {
-        return (int) cache.get(transactionId);
+    public String get (String transactionId) {
+        return cache.get(transactionId);
 
     }
 

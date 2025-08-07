@@ -1,5 +1,6 @@
 package com.payment.payment.service;
 
+import com.payment.payment.entity.PaymentRequestDTO;
 import com.payment.payment.registry.PaymentProcessorRegistry;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +19,13 @@ public class NetBankingPayment implements PaymentProcessor {
     }
 
     @Override
-    public String initiatePayment (String details) {
-        String[] credentials = details.split(":");
-        if (credentials[0].equals(username) && credentials[1].equals(password)) {
+    public String initiatePayment (PaymentRequestDTO dto) {
+//        String[] credentials = details.split(":");
+        if (dto.getPaymentType().equals("NetBanking") && dto.getPaymentId().equals(username)) {
             String transactionID = Generator.generateTransactionId();
-            int originalOtp = Generator.generateOTP();
-            if (cache.save(transactionID, originalOtp)) {
-                return transactionID + originalOtp;
+//            int originalOtp = Generator.generateOTP();
+            if (cache.save(transactionID, password)) {
+                return transactionID;
             }
         }
         return null;
@@ -32,9 +33,9 @@ public class NetBankingPayment implements PaymentProcessor {
     }
 
     @Override
-    public boolean completePayment (int otp, String transactionId, String paymentType) {
+    public boolean completePayment (String otp, String transactionId, String paymentType) {
 
-        if (cache.get(transactionId) == otp) {
+        if (cache.get(transactionId).equals(otp)) {
             cache.remove(transactionId);
             return true;
         }

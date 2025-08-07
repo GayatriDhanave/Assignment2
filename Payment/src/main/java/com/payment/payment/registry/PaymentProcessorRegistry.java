@@ -10,7 +10,7 @@ import java.util.Map;
 public class PaymentProcessorRegistry {
     static Map<String, PaymentProcessor> paymentProcessorMap = new HashMap<>();
 
-    public static void put (String key, PaymentProcessor paymentProcessor) {
+    public void put (String key, PaymentProcessor paymentProcessor) {
         System.out.println("Registering payment processor: " + key);
         paymentProcessorMap.put(key, paymentProcessor);
     }
