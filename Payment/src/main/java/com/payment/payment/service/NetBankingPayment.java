@@ -1,20 +1,22 @@
 package com.payment.payment.service;
 
-import com.payment.payment.registry.PaymentProcessorRegistry;
+import com.payment.payment.factory.PaymentProcessorFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+@Qualifier("NetBanking")
 public class NetBankingPayment implements PaymentProcessor {
 
     static String username = "riya";
     static String password = "Riya@1234";
-    private final PaymentProcessorRegistry registry;
+//    private final PaymentProcessorFactory registry;
     private final Cache cache;
 
-    public NetBankingPayment (PaymentProcessorRegistry registry, Cache cache) {
-        this.registry = registry;
+    public NetBankingPayment (Cache cache) {
+//        this.registry = registry;
         this.cache = cache;
-        this.register();
+//        this.register();
     }
 
     @Override
@@ -42,8 +44,8 @@ public class NetBankingPayment implements PaymentProcessor {
         return false;
     }
 
-    @Override
-    public void register () {
-        registry.put("NetBanking", this);
-    }
+//    @Override
+//    public void register () {
+//        registry.put("NetBanking", this);
+//    }
 }

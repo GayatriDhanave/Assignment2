@@ -1,18 +1,20 @@
 package com.payment.payment.service;
 
-import com.payment.payment.registry.PaymentProcessorRegistry;
+import com.payment.payment.factory.PaymentProcessorFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+@Qualifier("Card")
 public class CreditCardPayment implements PaymentProcessor {
     static String cardNumber = "1323354343";
-    private final PaymentProcessorRegistry registry;
+//    private final PaymentProcessorFactory registry;
     private final Cache cache;
 
-    public CreditCardPayment (PaymentProcessorRegistry registry, Cache cache) {
-        this.registry = registry;
+    public CreditCardPayment (Cache cache) {
+//        this.registry = registry;
         this.cache = cache;
-        this.register();
+//        this.register();
     }
 
     @Override
@@ -42,8 +44,8 @@ public class CreditCardPayment implements PaymentProcessor {
         return false;
     }
 
-    @Override
-    public void register () {
-        registry.put("Card", this);
-    }
+//    @Override
+//    public void register () {
+//        registry.put("Card", this);
+//    }
 }

@@ -1,6 +1,6 @@
 //package com.payment.payment.configuration;
 //
-//import com.payment.payment.registry.PaymentProcessorRegistry;
+//import com.payment.payment.registry.PaymentProcessorFactory;
 //import com.payment.payment.service.*;
 //import jakarta.annotation.PostConstruct;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@
 //@Component
 //public class Registration {
 //    @Autowired
-//    PaymentProcessorRegistry registry;
+//    PaymentProcessorFactory registry;
 //
 //    @PostConstruct
 //    public void registerPaymentProcessors () {

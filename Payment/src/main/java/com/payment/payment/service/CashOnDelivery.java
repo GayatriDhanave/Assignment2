@@ -1,19 +1,21 @@
 package com.payment.payment.service;
 
-import com.payment.payment.registry.PaymentProcessorRegistry;
+import com.payment.payment.factory.PaymentProcessorFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+@Qualifier("COD")
 public class CashOnDelivery implements PaymentProcessor {
     String email = "example@gmail.com";
 
-    private final PaymentProcessorRegistry registry;
+//    private final PaymentProcessorFactory registry;
     private final Cache cache;
 
-    public CashOnDelivery (PaymentProcessorRegistry registry, Cache cache) {
-        this.registry = registry;
+    public CashOnDelivery ( Cache cache) {
+//        PaymentProcessorFactory registry,  this.registry = registry;
         this.cache = cache;
-        this.register();
+//        this.register();
     }
 
     @Override
@@ -43,8 +45,8 @@ public class CashOnDelivery implements PaymentProcessor {
         return false;
     }
 
-    @Override
-    public void register () {
-        registry.put("COD", this);
-    }
+//    @Override
+//    public void register () {
+//        registry.put("COD", this);
+//    }
 }
